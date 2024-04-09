@@ -1,7 +1,14 @@
 export const types = {
-  loginUser: "[AUTH] login user",
-  logoutUser: "[AUTH] logout user",
-  createRole: "[ROLES] create role",
-  updateRole: "[ROLES] update role",
-  deleteRole: "[ROLES] delete role",
+  LOGIN_USER: "[AUTH] LOGIN_USER",
+  LOGOUT_USER: "[AUTH] LOGOUT_USER",
+
+  SET_ROLES: "[ROLES] SET_ROLES",
+  CREATE_ROLE: "[ROLES] CREATE_ROLE",
+  UPDATE_ROLE: "[ROLES] UPDATE_ROLE",
+  DELETE_ROLE: "[ROLES] DELETE_ROLE",
+
+  SET_BRANDS: "[ROLES] SET_BRANDS",
+  CREATE_BRAND: "[ROLES] CREATE_BRAND",
+  UPDATE_BRAND: "[ROLES] UPDATE_BRAND",
+  DELETE_BRAND: "[ROLES] DELETE_BRAND",
 };

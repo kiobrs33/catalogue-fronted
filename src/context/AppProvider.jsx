@@ -1,43 +1,75 @@
 import { useReducer } from "react";
 import { AppContext } from "./AppContext";
 import PropTypes from "prop-types";
-import { appReducer, initialState } from "../reducer/appReducer";
+import { appReducer, initFunc, initialState } from "../reducer/appReducer";
 import { types } from "../types/types";
 
 export const AppProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  const [state, dispatch] = useReducer(appReducer, initialState, initFunc);
 
+  // TODO AUTH
   const handleLogin = (user) => {
+    console.log("HABDLE LOGIN", user);
     dispatch({
-      type: types.loginUser,
+      type: types.LOGIN_USER,
       payload: { user },
     });
   };
-
   const handleLogout = () => {
     dispatch({
-      type: types.logoutUser,
+      type: types.LOGOUT_USER,
     });
   };
 
+  // TODO ROLES
+  const handleSetRoles = (roles) => {
+    dispatch({
+      type: types.SET_ROLES,
+      payload: { roles },
+    });
+  };
   const handleCreateRole = (role) => {
     dispatch({
-      type: types.createRole,
+      type: types.CREATE_ROLE,
       payload: { role },
     });
   };
-
-  const handleUpdateRole = (idRole) => {
+  const handleUpdateRole = (role) => {
     dispatch({
-      type: types.updateRole,
-      payload: { idRole },
+      type: types.UPDATE_ROLE,
+      payload: { role },
+    });
+  };
+  const handleDeleteRole = (id) => {
+    dispatch({
+      type: types.DELETE_ROLE,
+      payload: { id },
     });
   };
 
-  const handleDeleteRole = (idRole) => {
+  // TODO BRANDS
+  const handleSetBrands = (brands) => {
     dispatch({
-      type: types.createRole,
-      payload: { idRole },
+      type: types.SET_BRANDS,
+      payload: { brands },
+    });
+  };
+  const handleCreateBrand = (brand) => {
+    dispatch({
+      type: types.CREATE_BRAND,
+      payload: { brand },
+    });
+  };
+  const handleUpdateBrand = (brand) => {
+    dispatch({
+      type: types.UPDATE_BRAND,
+      payload: { brand },
+    });
+  };
+  const handleDeleteBrand = (id) => {
+    dispatch({
+      type: types.DELETE_BRAND,
+      payload: { id },
     });
   };
 
@@ -47,9 +79,16 @@ export const AppProvider = ({ children }) => {
         state,
         handleLogin,
         handleLogout,
+
+        handleSetRoles,
         handleCreateRole,
         handleUpdateRole,
         handleDeleteRole,
+
+        handleSetBrands,
+        handleCreateBrand,
+        handleUpdateBrand,
+        handleDeleteBrand,
       }}
     >
       {children}

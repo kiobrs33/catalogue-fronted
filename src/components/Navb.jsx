@@ -3,11 +3,18 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import { removeUserLocalStorage } from "../helpers/authLocalStorage";
 
 export const Navb = () => {
   const navigate = useNavigate();
+  const { state, handleLogout } = useContext(AppContext);
 
   const onLogout = () => {
+    handleLogout();
+    removeUserLocalStorage();
+
     navigate("/login", {
       replace: true,
     });
@@ -16,7 +23,7 @@ export const Navb = () => {
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand href="#home">Footlose</Navbar.Brand>
+        <Navbar.Brand href="#home">{state.auth?.name}</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -42,6 +49,7 @@ export const Navb = () => {
               Roles
             </Nav.Link>
           </Nav>
+
           <Button variant="secondary" onClick={onLogout}>
             Salir
           </Button>
