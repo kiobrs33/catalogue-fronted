@@ -3,18 +3,19 @@ import { clientApi } from "../../api/clientApi";
 import { AppContext } from "../../context/AppContext";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
-import { EditBrand } from "./EditBrand";
+import { EditModel } from "./EditModel";
 import { Load } from "../Load";
 
-export const BrandsTable = () => {
-  const { state, handleSetBrands, handleDeleteBrand } = useContext(AppContext);
+export const ModelsTable = () => {
+  const { state, handleSetModels, handleDeleteModel } = useContext(AppContext);
 
   const [rowData, setRowData] = useState({});
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getBrands();
+    console.log("load");
+    getModels();
   }, []);
 
   const handleCloseModalEdit = () => {
@@ -22,39 +23,39 @@ export const BrandsTable = () => {
     setShowModalEdit(false);
   };
 
-  const handleShowModalEdit = (brand) => {
-    setRowData(brand);
+  const handleShowModalEdit = (color) => {
+    setRowData(color);
     setShowModalEdit(true);
   };
 
-  const deleteBrand = async (idBrand) => {
+  const deleteModel = async (idModel) => {
     try {
-      await clientApi.delete(`/brands/${idBrand}`, {
+      await clientApi.delete(`/models/${idModel}`, {
         headers: {
           "x-token": state.auth?.token,
         },
       });
 
-      handleDeleteBrand(idBrand);
+      handleDeleteModel(idModel);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDelete = (idBrand) => {
-    deleteBrand(idBrand);
+  const handleDelete = (idModel) => {
+    deleteModel(idModel);
   };
 
-  const getBrands = async () => {
+  const getModels = async () => {
     try {
       setIsLoading(true);
-      const { data } = await clientApi.get("/brands", {
+      const { data } = await clientApi.get("/models", {
         headers: {
           "x-token": state.auth?.token,
         },
       });
 
-      handleSetBrands(data.brands);
+      handleSetModels(data.models);
     } catch (error) {
       console.log(error);
     } finally {
@@ -64,7 +65,7 @@ export const BrandsTable = () => {
 
   return (
     <>
-      <EditBrand
+      <EditModel
         show={showModalEdit}
         rowData={rowData}
         handleClose={handleCloseModalEdit}
@@ -77,32 +78,32 @@ export const BrandsTable = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Marca</th>
+              <th>Color</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {state.brands.map((brand) => {
+            {state.models.map((model) => {
               return (
-                <tr key={brand._id}>
+                <tr key={model._id}>
                   <td>
                     <span className="badge text-bg-primary">
                       <i className="fa-solid fa-user"></i>
                     </span>
                   </td>
-                  <td>{brand.name}</td>
+                  <td>{model.name}</td>
                   <td>
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm me-2"
-                      onClick={() => handleShowModalEdit(brand)}
+                      onClick={() => handleShowModalEdit(model)}
                     >
                       <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button
                       type="button"
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(brand._id)}
+                      onClick={() => handleDelete(model._id)}
                     >
                       <i className="fa-solid fa-trash"></i>
                     </button>

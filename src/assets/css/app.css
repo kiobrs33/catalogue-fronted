@@ -1,0 +1,5 @@
+.height-modal {
+  height: 400px;
+  position: relative;
+  /* overflow-y: auto; */
+}

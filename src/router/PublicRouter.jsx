@@ -7,8 +7,6 @@ export const PublicRouter = ({ children }) => {
   const { state } = useContext(AppContext);
 
   if (state.auth?.token) {
-    console.log("PUBLIC");
-    console.log(state);
     return <Navigate to={"/dashboard"} />;
   } else {
     return children;

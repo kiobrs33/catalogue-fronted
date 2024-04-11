@@ -9,8 +9,6 @@ export const PrivateRouter = ({ children }) => {
   if (state.auth?.token) {
     return children;
   } else {
-    console.log("PRIVATE");
-    console.log(state);
     return <Navigate to={"/login"} />;
   }
 };

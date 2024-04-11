@@ -9,7 +9,6 @@ export const AppProvider = ({ children }) => {
 
   // TODO AUTH
   const handleLogin = (user) => {
-    console.log("HABDLE LOGIN", user);
     dispatch({
       type: types.LOGIN_USER,
       payload: { user },
@@ -73,6 +72,136 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  // TODO COLORS
+  const handleSetColors = (colors) => {
+    dispatch({
+      type: types.SET_COLORS,
+      payload: { colors },
+    });
+  };
+  const handleCreateColor = (color) => {
+    dispatch({
+      type: types.CREATE_COLOR,
+      payload: { color },
+    });
+  };
+  const handleUpdateColor = (color) => {
+    dispatch({
+      type: types.UPDATE_COLOR,
+      payload: { color },
+    });
+  };
+  const handleDeleteColor = (id) => {
+    dispatch({
+      type: types.DELETE_COLOR,
+      payload: { id },
+    });
+  };
+
+  // TODO MODELS
+  const handleSetModels = (models) => {
+    dispatch({
+      type: types.SET_MODELS,
+      payload: { models },
+    });
+  };
+  const handleCreateModel = (model) => {
+    dispatch({
+      type: types.CREATE_MODEL,
+      payload: { model },
+    });
+  };
+  const handleUpdateModel = (model) => {
+    dispatch({
+      type: types.UPDATE_MODEL,
+      payload: { model },
+    });
+  };
+  const handleDeleteModel = (id) => {
+    dispatch({
+      type: types.DELETE_MODEL,
+      payload: { id },
+    });
+  };
+
+  // TODO SIZES
+  const handleSetSizes = (sizes) => {
+    dispatch({
+      type: types.SET_SIZES,
+      payload: { sizes },
+    });
+  };
+  const handleCreateSize = (size) => {
+    dispatch({
+      type: types.CREATE_SIZE,
+      payload: { size },
+    });
+  };
+  const handleUpdateSize = (size) => {
+    dispatch({
+      type: types.UPDATE_SIZE,
+      payload: { size },
+    });
+  };
+  const handleDeleteSize = (id) => {
+    dispatch({
+      type: types.DELETE_SIZE,
+      payload: { id },
+    });
+  };
+
+  // TODO PRODUCTS
+  const handleSetProducts = (products) => {
+    dispatch({
+      type: types.SET_PRODUCTS,
+      payload: { products },
+    });
+  };
+  const handleCreateProduct = (product) => {
+    dispatch({
+      type: types.CREATE_PRODUCT,
+      payload: { product },
+    });
+  };
+  const handleUpdateProduct = (product) => {
+    dispatch({
+      type: types.UPDATE_PRODUCT,
+      payload: { product },
+    });
+  };
+  const handleDeleteProduct = (id) => {
+    dispatch({
+      type: types.DELETE_PRODUCT,
+      payload: { id },
+    });
+  };
+
+  // TODO USERS
+  const handleSetUsers = (users) => {
+    dispatch({
+      type: types.SET_USERS,
+      payload: { users },
+    });
+  };
+  const handleCreateUser = (user) => {
+    dispatch({
+      type: types.CREATE_USER,
+      payload: { user },
+    });
+  };
+  const handleUpdateUser = (user) => {
+    dispatch({
+      type: types.UPDATE_USER,
+      payload: { user },
+    });
+  };
+  const handleDeleteUser = (id) => {
+    dispatch({
+      type: types.DELETE_USER,
+      payload: { id },
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -89,6 +218,31 @@ export const AppProvider = ({ children }) => {
         handleCreateBrand,
         handleUpdateBrand,
         handleDeleteBrand,
+
+        handleSetColors,
+        handleCreateColor,
+        handleUpdateColor,
+        handleDeleteColor,
+
+        handleSetModels,
+        handleCreateModel,
+        handleUpdateModel,
+        handleDeleteModel,
+
+        handleSetSizes,
+        handleCreateSize,
+        handleUpdateSize,
+        handleDeleteSize,
+
+        handleSetProducts,
+        handleCreateProduct,
+        handleUpdateProduct,
+        handleDeleteProduct,
+
+        handleSetUsers,
+        handleCreateUser,
+        handleUpdateUser,
+        handleDeleteUser,
       }}
     >
       {children}

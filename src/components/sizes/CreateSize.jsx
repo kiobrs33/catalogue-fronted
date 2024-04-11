@@ -4,8 +4,8 @@ import { AppContext } from "../../context/AppContext";
 import { useForm } from "../../hooks/useForm";
 import { clientApi } from "../../api/clientApi";
 
-export const CreateColor = () => {
-  const { state, handleCreateColor } = useContext(AppContext);
+export const CreateSize = () => {
+  const { state, handleCreateSize } = useContext(AppContext);
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -34,20 +34,20 @@ export const CreateColor = () => {
     setValidated(true);
 
     if (form.checkValidity()) {
-      postColor(formValues);
+      postSize(formValues);
       handleClose();
     }
   };
 
-  const postColor = async (colorValue) => {
+  const postSize = async (sizeValue) => {
     try {
-      const { data } = await clientApi.post("/colors", colorValue, {
+      const { data } = await clientApi.post("/sizes", sizeValue, {
         headers: {
           "x-token": state.auth?.token,
         },
       });
 
-      handleCreateColor(data.color);
+      handleCreateSize(data.size);
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +57,7 @@ export const CreateColor = () => {
     <>
       <div className="d-flex justify-content-end">
         <Button variant="primary" onClick={handleShow}>
-          <i className="fa-solid fa-circle-plus"></i> Nuevo Color
+          <i className="fa-solid fa-circle-plus"></i> Nueva Talla
         </Button>
       </div>
 
@@ -65,7 +65,7 @@ export const CreateColor = () => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <i className="fa-solid fa-square-plus"></i> Nuevo color
+              <i className="fa-solid fa-user"></i> Nuevo Talla
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -73,7 +73,7 @@ export const CreateColor = () => {
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nombre del color"
+                placeholder="Nombre role"
                 name="name"
                 value={name}
                 onChange={onChangeInput}

@@ -74,7 +74,7 @@ export const EditBrand = ({ show, rowData, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleHide} size="lg">
+    <Modal show={show} onHide={handleHide} size="lg" centered>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title>

@@ -4,8 +4,8 @@ import { AppContext } from "../../context/AppContext";
 import { clientApi } from "../../api/clientApi";
 import PropTypes from "prop-types";
 
-export const EditRole = ({ show, rowData, handleClose }) => {
-  const { state, handleUpdateRole } = useContext(AppContext);
+export const EditModel = ({ show, rowData, handleClose }) => {
+  const { state, handleUpdateModel } = useContext(AppContext);
   const [validated, setValidated] = useState(false);
   // const [show, setShow] = useState(false);
 
@@ -39,11 +39,11 @@ export const EditRole = ({ show, rowData, handleClose }) => {
     handleClose();
   };
 
-  const updateRole = async (roleValue) => {
+  const updateModel = async (modelValue) => {
     try {
       const { data } = await clientApi.put(
-        `/roles/${roleValue._id}`,
-        roleValue,
+        `/models/${modelValue._id}`,
+        modelValue,
         {
           headers: {
             "x-token": state.auth?.token,
@@ -51,7 +51,7 @@ export const EditRole = ({ show, rowData, handleClose }) => {
         }
       );
 
-      handleUpdateRole(data.role);
+      handleUpdateModel(data.model);
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +68,7 @@ export const EditRole = ({ show, rowData, handleClose }) => {
     setValidated(true);
 
     if (form.checkValidity()) {
-      updateRole(formData);
+      updateModel(formData);
       handleClose();
     }
   };
@@ -78,7 +78,7 @@ export const EditRole = ({ show, rowData, handleClose }) => {
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <i className="fa-solid fa-user"></i> Editar role
+            <i className="fa-solid fa-user"></i> Editar modelo
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -108,14 +108,14 @@ export const EditRole = ({ show, rowData, handleClose }) => {
   );
 };
 
-EditRole.defaultProps = {
+EditModel.defaultProps = {
   rowData: {
     _id: "",
     name: "",
   },
 };
 
-EditRole.propTypes = {
+EditModel.propTypes = {
   show: PropTypes.bool,
   rowData: PropTypes.object,
   handleClose: PropTypes.func,

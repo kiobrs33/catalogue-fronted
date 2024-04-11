@@ -3,18 +3,18 @@ import { clientApi } from "../../api/clientApi";
 import { AppContext } from "../../context/AppContext";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
-import { EditBrand } from "./EditBrand";
+import { EditSize } from "./EditSize";
 import { Load } from "../Load";
 
-export const BrandsTable = () => {
-  const { state, handleSetBrands, handleDeleteBrand } = useContext(AppContext);
+export const SizesTable = () => {
+  const { state, handleSetSizes, handleDeleteSize } = useContext(AppContext);
 
   const [rowData, setRowData] = useState({});
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getBrands();
+    getSizes();
   }, []);
 
   const handleCloseModalEdit = () => {
@@ -22,39 +22,39 @@ export const BrandsTable = () => {
     setShowModalEdit(false);
   };
 
-  const handleShowModalEdit = (brand) => {
-    setRowData(brand);
+  const handleShowModalEdit = (role) => {
+    setRowData(role);
     setShowModalEdit(true);
   };
 
-  const deleteBrand = async (idBrand) => {
+  const deleteSize = async (idSize) => {
     try {
-      await clientApi.delete(`/brands/${idBrand}`, {
+      await clientApi.delete(`/sizes/${idSize}`, {
         headers: {
           "x-token": state.auth?.token,
         },
       });
 
-      handleDeleteBrand(idBrand);
+      handleDeleteSize(idSize);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDelete = (idBrand) => {
-    deleteBrand(idBrand);
+  const handleDelete = (idSize) => {
+    deleteSize(idSize);
   };
 
-  const getBrands = async () => {
+  const getSizes = async () => {
     try {
       setIsLoading(true);
-      const { data } = await clientApi.get("/brands", {
+      const { data } = await clientApi.get("/sizes", {
         headers: {
           "x-token": state.auth?.token,
         },
       });
 
-      handleSetBrands(data.brands);
+      handleSetSizes(data.sizes);
     } catch (error) {
       console.log(error);
     } finally {
@@ -64,7 +64,7 @@ export const BrandsTable = () => {
 
   return (
     <>
-      <EditBrand
+      <EditSize
         show={showModalEdit}
         rowData={rowData}
         handleClose={handleCloseModalEdit}
@@ -77,32 +77,32 @@ export const BrandsTable = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Marca</th>
+              <th>Talla</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {state.brands.map((brand) => {
+            {state.sizes.map((size) => {
               return (
-                <tr key={brand._id}>
+                <tr key={size._id}>
                   <td>
                     <span className="badge text-bg-primary">
                       <i className="fa-solid fa-user"></i>
                     </span>
                   </td>
-                  <td>{brand.name}</td>
+                  <td>{size.name}</td>
                   <td>
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm me-2"
-                      onClick={() => handleShowModalEdit(brand)}
+                      onClick={() => handleShowModalEdit(size)}
                     >
                       <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button
                       type="button"
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(brand._id)}
+                      onClick={() => handleDelete(size._id)}
                     >
                       <i className="fa-solid fa-trash"></i>
                     </button>

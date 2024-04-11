@@ -4,14 +4,14 @@ import { AppContext } from "../../context/AppContext";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { EditColor } from "./EditColor";
+import { Load } from "../Load";
 
 export const ColorsTable = () => {
   const { state, handleSetColors, handleDeleteColor } = useContext(AppContext);
 
   const [rowData, setRowData] = useState({});
-
-  // ROLE EDIT MODAL
   const [showModalEdit, setShowModalEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getColors();
@@ -47,6 +47,7 @@ export const ColorsTable = () => {
 
   const getColors = async () => {
     try {
+      setIsLoading(true);
       const { data } = await clientApi.get("/colors", {
         headers: {
           "x-token": state.auth?.token,
@@ -56,6 +57,8 @@ export const ColorsTable = () => {
       handleSetColors(data.colors);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -66,45 +69,50 @@ export const ColorsTable = () => {
         rowData={rowData}
         handleClose={handleCloseModalEdit}
       />
-      <Table className="my-4 table-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Color</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {state.colors.map((color) => {
-            return (
-              <tr key={color._id}>
-                <td>
-                  <span className="badge text-bg-primary">
-                    <i className="fa-solid fa-user"></i>
-                  </span>
-                </td>
-                <td>{color.name}</td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-secondary btn-sm me-2"
-                    onClick={() => handleShowModalEdit(color)}
-                  >
-                    <i className="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(color._id)}
-                  >
-                    <i className="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+
+      {isLoading ? (
+        <Load />
+      ) : (
+        <Table className="my-4 table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Color</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {state.colors.map((color) => {
+              return (
+                <tr key={color._id}>
+                  <td>
+                    <span className="badge text-bg-primary">
+                      <i className="fa-solid fa-user"></i>
+                    </span>
+                  </td>
+                  <td>{color.name}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm me-2"
+                      onClick={() => handleShowModalEdit(color)}
+                    >
+                      <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(color._id)}
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      )}
     </>
   );
 };

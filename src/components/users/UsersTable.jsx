@@ -3,18 +3,18 @@ import { clientApi } from "../../api/clientApi";
 import { AppContext } from "../../context/AppContext";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
-import { EditBrand } from "./EditBrand";
+import { EditUser } from "./EditUser";
 import { Load } from "../Load";
 
-export const BrandsTable = () => {
-  const { state, handleSetBrands, handleDeleteBrand } = useContext(AppContext);
+export const UsersTable = () => {
+  const { state, handleSetUsers, handleDeleteUser } = useContext(AppContext);
 
   const [rowData, setRowData] = useState({});
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getBrands();
+    getUsers();
   }, []);
 
   const handleCloseModalEdit = () => {
@@ -22,39 +22,39 @@ export const BrandsTable = () => {
     setShowModalEdit(false);
   };
 
-  const handleShowModalEdit = (brand) => {
-    setRowData(brand);
+  const handleShowModalEdit = (role) => {
+    setRowData(role);
     setShowModalEdit(true);
   };
 
-  const deleteBrand = async (idBrand) => {
+  const deleteUser = async (idUser) => {
     try {
-      await clientApi.delete(`/brands/${idBrand}`, {
+      await clientApi.delete(`/users/${idUser}`, {
         headers: {
           "x-token": state.auth?.token,
         },
       });
 
-      handleDeleteBrand(idBrand);
+      handleDeleteUser(idUser);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDelete = (idBrand) => {
-    deleteBrand(idBrand);
+  const handleDelete = (idUser) => {
+    deleteUser(idUser);
   };
 
-  const getBrands = async () => {
+  const getUsers = async () => {
     try {
       setIsLoading(true);
-      const { data } = await clientApi.get("/brands", {
+      const { data } = await clientApi.get("/users", {
         headers: {
           "x-token": state.auth?.token,
         },
       });
 
-      handleSetBrands(data.brands);
+      handleSetUsers(data.users);
     } catch (error) {
       console.log(error);
     } finally {
@@ -64,7 +64,7 @@ export const BrandsTable = () => {
 
   return (
     <>
-      <EditBrand
+      <EditUser
         show={showModalEdit}
         rowData={rowData}
         handleClose={handleCloseModalEdit}
@@ -77,32 +77,36 @@ export const BrandsTable = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Marca</th>
+              <th>Nombres y Apellidos</th>
+              <th>Correo</th>
+              <th>Role</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {state.brands.map((brand) => {
+            {state.users.map((user) => {
               return (
-                <tr key={brand._id}>
+                <tr key={user._id}>
                   <td>
                     <span className="badge text-bg-primary">
                       <i className="fa-solid fa-user"></i>
                     </span>
                   </td>
-                  <td>{brand.name}</td>
+                  <td>{`${user.name} ${user.lastname}`}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role_id.name}</td>
                   <td>
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm me-2"
-                      onClick={() => handleShowModalEdit(brand)}
+                      onClick={() => handleShowModalEdit(user)}
                     >
                       <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button
                       type="button"
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(brand._id)}
+                      onClick={() => handleDelete(user._id)}
                     >
                       <i className="fa-solid fa-trash"></i>
                     </button>
